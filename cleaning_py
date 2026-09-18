@@ -1,0 +1,40 @@
+import pandas as pd
+df = pd.read_csv("credit_risk_dataset.csv")
+
+print("--- Veri Yapısı ---")
+df.info()
+
+print("\n--- Eksik Veri (NULL) Sayıları ---")
+print(df.isnull().sum())
+
+# 1. Eksik verileri kendi sütunlarının medyan (ortanca) değeriyle doldur
+df['person_emp_length'] = df['person_emp_length'].fillna(df['person_emp_length'].median())
+df['loan_int_rate'] = df['loan_int_rate'].fillna(df['loan_int_rate'].median())
+
+# 2. Boşlukların gerçekten kapandığını teyit et
+print("\n--- Temizlik Sonrası Eksik Veri ---")
+print(df.isnull().sum())
+
+# 3. Aykırı değerleri (Outliers) bulmak için istatistiksel özet
+print("\n--- İstatistiksel Özet Tablosu ---")
+print(df.describe())
+
+# 4. Mantıksız aykırı değerleri (outliers) veri setinden atıyoruz
+df = df[df['person_age'] < 100]
+df = df[df['person_emp_length'] < 60]
+
+# Kalan sağlıklı veri sayısını kontrol ediyoruz
+print("\n--- Temizlik Sonrası Kalan Toplam Satır Sayısı ---")
+print(len(df))
+
+# 5. Mükerrer (Duplicate) kayıtları kontrol et ve sil
+tekrar_edenler = df.duplicated().sum()
+print(f"\n--- Bulunan Mükerrer Satır Sayısı: {tekrar_edenler} ---")
+
+# Bu kopyaları veriden tamamen temizle
+df = df.drop_duplicates()
+
+print(f"--- Duplicate Temizliği Sonrası Son Satır Sayısı: {len(df)} ---")
+
+# Temizlenmiş veriyi yepyeni bir dosya olarak kaydediyoruz
+df.to_csv("temizlenmis_kredi_verisi.csv", index=False)
