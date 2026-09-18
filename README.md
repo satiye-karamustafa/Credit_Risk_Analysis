@@ -25,7 +25,7 @@ Projede kullanılan ham veri seti **Kgle (Kaggle)** üzerinden temin edilmiş ol
 
 ---
 
-## 🇬🇧 English
+##  English
 
 ### 📌 About the Project
 This project is an end-to-end data analytics study addressing the critical banking sector problem of **Credit Risk Analysis**, transforming raw data into an enterprise-grade business intelligence dashboard.
